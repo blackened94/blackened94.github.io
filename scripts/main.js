@@ -88,3 +88,16 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
     submitBtn.innerHTML = '<svg width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#icon-send"/></svg> Enviar mensaje';
     submitBtn.disabled = false;
 });
+
+// Copiar correo al portapapeles
+document.querySelectorAll('.email-copy').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const email = btn.dataset.email;
+    const tooltip = btn.querySelector('.email-tooltip');
+
+    navigator.clipboard.writeText(email).then(() => {
+      tooltip.classList.add('visible');
+      setTimeout(() => tooltip.classList.remove('visible'), 2000);
+    });
+  });
+});
