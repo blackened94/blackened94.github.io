@@ -32,9 +32,18 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Contact form — usa Formspree (gratuito)
-// Pasos: 1) ve a formspree.io  2) crea un form  3) reemplaza TU_FORM_ID abajo
-const FORMSPREE_ID = 'TU_FORM_ID';
+// Contact form — usa EmailJS (gratuito)
+// Pasos: 1) crea una cuenta en emailjs.com  2) conecta un servicio de email (ej. Gmail)
+// 3) crea un template con las variables {{name}}, {{email}}, {{subject}}, {{message}}
+// 4) reemplaza los valores de abajo con tu Public Key, Service ID y Template ID
+const EMAILJS_PUBLIC_KEY = 'TU_PUBLIC_KEY';
+const EMAILJS_SERVICE_ID = 'service_qf1sm4q';
+const EMAILJS_TEMPLATE_ID = 'TU_TEMPLATE_ID';
+const FALLBACK_EMAIL = 'alberto.rubio.isc@gmail.com';
+
+if (EMAILJS_PUBLIC_KEY !== 'TU_PUBLIC_KEY') {
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+}
 
 document.getElementById('contactForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -54,33 +63,25 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
         message: form.message.value,
     };
 
-    // Si no has configurado Formspree, abre el cliente de correo como fallback
-    if (FORMSPREE_ID === 'TU_FORM_ID') {
-        const body = encodeURIComponent(`Nombre: ${data.name}\n\n${data.message}`);
+    // Si no has configurado EmailJS, abre el cliente de correo como fallback
+    if (EMAILJS_PUBLIC_KEY === 'TU_PUBLIC_KEY') {
+        const body = encodeURIComponent(`Nombre: ${data.name}\nCorreo: ${data.email}\n\n${data.message}`);
         const subject = encodeURIComponent(data.subject || 'Mensaje desde tu CV');
-        window.location.href = `mailto:tu@correo.com?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:${FALLBACK_EMAIL}?subject=${subject}&body=${body}`;
         submitBtn.textContent = 'Enviar mensaje';
         submitBtn.disabled = false;
         return;
     }
 
     try {
-        const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify(data),
-        });
-
-        if (res.ok) {
-            status.className = 'form-status success';
-            status.textContent = '¡Mensaje enviado! Te responderé pronto.';
-            form.reset();
-        } else {
-            throw new Error('Error al enviar');
-        }
-    } catch {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, data);
+        status.className = 'form-status success';
+        status.textContent = '¡Mensaje enviado! Te responderé pronto.';
+        form.reset();
+    } catch (err) {
         status.className = 'form-status error';
-        status.textContent = 'Algo salió mal. Inténtalo de nuevo o escríbeme directamente.';
+        status.textContent = `Algo salió mal. Inténtalo de nuevo o escríbeme a ${FALLBACK_EMAIL}.`;
+        console.error('Contact form error:', err);
     }
 
     status.style.display = 'block';
