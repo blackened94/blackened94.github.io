@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
 	<title>Alberto Rubio — Desarrollador de Software</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,20 +17,27 @@
 	<!-- NAV -->
 	<nav>
 		<a href="#hero" class="nav-logo">AR.dev</a>
-		<ul class="nav-links">
-			<li><a href="#skills">Habilidades</a></li>
-			<li><a href="#experience">Experiencia</a></li>
-			<li><a href="#projects">Proyectos</a></li>
-			<li><a href="#contact">Contacto</a></li>
+		<ul class="nav-links" id="navLinks">
+			<li><a href="#skills" class="nav-link">Habilidades</a></li>
+			<li><a href="#experience" class="nav-link">Experiencia</a></li>
+			<li><a href="#projects" class="nav-link">Proyectos</a></li>
+			<li><a href="#contact" class="nav-link">Contacto</a></li>
 		</ul>
-		<button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
-			<svg class="icon-sun" width="16" height="16" aria-hidden="true">
-				<use href="assets/icons.svg#icon-sun" />
-			</svg>
-			<svg class="icon-moon" width="16" height="16" aria-hidden="true">
-				<use href="assets/icons.svg#icon-moon" />
-			</svg>
-		</button>
+		<div class="nav-right">
+			<button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+				<svg class="icon-sun" width="16" height="16" aria-hidden="true">
+					<use href="assets/icons.svg#icon-sun" />
+				</svg>
+				<svg class="icon-moon" width="16" height="16" aria-hidden="true">
+					<use href="assets/icons.svg#icon-moon" />
+				</svg>
+			</button>
+			<button class="hamburger" id="hamburger" aria-label="Abrir menú">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+		</div>
 	</nav>
 
 	<!-- HERO -->
@@ -215,9 +223,6 @@
 							<span class="tag">PHP</span>
 							<span class="tag">MySQL</span>
 						</div>
-						<span class="project-link">
-							Proyecto privado
-						</span>
 					</div>
 				</div>
 
@@ -233,9 +238,6 @@
 							<span class="tag">.NET</span>
 							<span class="tag">MySQL</span>
 						</div>
-						<span class="project-link">
-							Proyecto privado
-						</span>
 					</div>
 				</div>
 
@@ -252,9 +254,6 @@
 							<span class="tag">.NET</span>
 							<span class="tag">SQL Server</span>
 						</div>
-						<span class="project-link">
-							Proyecto privado
-						</span>
 					</div>
 				</div>
 
@@ -271,9 +270,6 @@
 							<span class="tag">.NET</span>
 							<span class="tag">SQL Server</span>
 						</div>
-						<span class="project-link">
-							Proyecto privado
-						</span>
 					</div>
 				</div>
 
@@ -312,7 +308,10 @@
 					<textarea id="message" name="message" rows="5" placeholder="Cuéntame sobre tu proyecto..."
 						required></textarea>
 				</div>
-				<div id="formStatus" class="form-status"></div>
+				<div id="formStatus" class="form-status">
+					<span id="formStatusText"></span>
+					<button class="form-status-close" id="formStatusClose" aria-label="Cerrar">✕</button>
+				</div>
 				<button type="submit" class="btn btn-primary" id="submitBtn">
 					<svg width="15" height="15" aria-hidden="true">
 						<use href="assets/icons.svg#icon-send" />
@@ -322,12 +321,6 @@
 			</form>
 
 			<div class="contact-links reveal" style="justify-content: center;">
-				<!-- <a href="mailto:tu@correo.com" class="contact-link">
-					<svg width="14" height="14" aria-hidden="true">
-						<use href="assets/icons.svg#icon-mail" />
-					</svg>
-					alberto.rubio.isc@gmail.com
-				</a> -->
 				<button class="contact-link email-copy" data-email="alberto.rubio.isc@gmail.com" aria-label="Copiar correo">
 					<svg width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#icon-mail"/></svg>
 					<span class="email-text">alberto.rubio.isc@gmail.com</span>
@@ -339,7 +332,7 @@
 					</svg>
 					github.com/blackened94
 				</a>
-				<a href="https://linkedin.com/in/tu-perfil" class="contact-link" target="_blank">
+				<a href="https://linkedin.com/in/jesus-alberto-rubio-guzmán-ab47b217a" class="contact-link" target="_blank">
 					<svg width="14" height="14" aria-hidden="true">
 						<use href="assets/icons.svg#icon-linkedin" />
 					</svg>

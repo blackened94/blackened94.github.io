@@ -36,9 +36,9 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 // Pasos: 1) crea una cuenta en emailjs.com  2) conecta un servicio de email (ej. Gmail)
 // 3) crea un template con las variables {{name}}, {{email}}, {{subject}}, {{message}}
 // 4) reemplaza los valores de abajo con tu Public Key, Service ID y Template ID
-const EMAILJS_PUBLIC_KEY = 'TU_PUBLIC_KEY';
+const EMAILJS_PUBLIC_KEY = 'dERhNbaCK23y0-mvK';
 const EMAILJS_SERVICE_ID = 'service_qf1sm4q';
-const EMAILJS_TEMPLATE_ID = 'TU_TEMPLATE_ID';
+const EMAILJS_TEMPLATE_ID = 'template_6y32uhl';
 const FALLBACK_EMAIL = 'alberto.rubio.isc@gmail.com';
 
 if (EMAILJS_PUBLIC_KEY !== 'TU_PUBLIC_KEY') {
@@ -49,6 +49,7 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const submitBtn = document.getElementById('submitBtn');
     const status = document.getElementById('formStatus');
+    const statusText = document.getElementById('formStatusText');
     const form = e.target;
 
     submitBtn.textContent = 'Enviando...';
@@ -59,14 +60,14 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
     const data = {
         name: form.name.value,
         email: form.email.value,
-        subject: form.subject.value,
+        title: form.subject.value,
         message: form.message.value,
     };
 
     // Si no has configurado EmailJS, abre el cliente de correo como fallback
     if (EMAILJS_PUBLIC_KEY === 'TU_PUBLIC_KEY') {
         const body = encodeURIComponent(`Nombre: ${data.name}\nCorreo: ${data.email}\n\n${data.message}`);
-        const subject = encodeURIComponent(data.subject || 'Mensaje desde tu CV');
+        const subject = encodeURIComponent(data.title || 'Mensaje desde tu CV');
         window.location.href = `mailto:${FALLBACK_EMAIL}?subject=${subject}&body=${body}`;
         submitBtn.textContent = 'Enviar mensaje';
         submitBtn.disabled = false;
@@ -76,11 +77,11 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
     try {
         await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, data);
         status.className = 'form-status success';
-        status.textContent = '¡Mensaje enviado! Te responderé pronto.';
+        statusText.textContent = '¡Mensaje enviado! Te responderé pronto.';
         form.reset();
     } catch (err) {
         status.className = 'form-status error';
-        status.textContent = `Algo salió mal. Inténtalo de nuevo o escríbeme a ${FALLBACK_EMAIL}.`;
+        statusText.textContent = `Algo salió mal. Inténtalo de nuevo o escríbeme a ${FALLBACK_EMAIL}.`;
         console.error('Contact form error:', err);
     }
 
@@ -100,4 +101,27 @@ document.querySelectorAll('.email-copy').forEach(btn => {
       setTimeout(() => tooltip.classList.remove('visible'), 2000);
     });
   });
+});
+
+document.getElementById('formStatusClose').addEventListener('click', () => {
+  const status = document.getElementById('formStatus');
+  status.className = 'form-status';
+  status.style.display = '';
+});
+
+// Menú hamburguesa
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    navLinks.classList.toggle('open');
+});
+
+// Cerrar menú al hacer clic en un enlace
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navLinks.classList.remove('open');
+    });
 });
