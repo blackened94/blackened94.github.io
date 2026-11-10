@@ -304,6 +304,14 @@ h1 em {
     background: var(--border);
 }
 
+.section-note {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.6;
+    margin-top: -1.5rem;
+    margin-bottom: 2rem;
+}
+
 /* ===== SKILLS ===== */
 .skills-grid {
     display: grid;
